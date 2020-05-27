@@ -1,0 +1,65 @@
+
+/**
+ * This program takes a file (specifically designed for plays) and creates two ArrayLists, one that 
+ * contains character names and one that contains the number of times they appear in the file.
+ * 
+ * @author (Mitchell Hein) 
+ * @date (5/26/20-5/27/20)
+ */
+
+import edu.duke.*;
+import java.util.*;
+
+public class CharactersInPlay {
+    private ArrayList<String> names = new ArrayList<String>();
+    private ArrayList<Integer> counts = new ArrayList<Integer>();
+    
+    private void update (String person) {
+        int index = names.indexOf(person);
+        //System.out.println(index);
+        if (index == -1) {
+        names.add(person);
+        counts.add(1);
+    } else {
+        int count = counts.get(index);
+        counts.set(index, count+1);
+    }
+    }
+    
+    public void findAllCharacters() {
+       names.clear();
+       counts.clear();
+        FileResource fr = new FileResource();
+        for (String line : fr.lines()) {
+            int index = line.indexOf(".", 0);
+            //System.out.println(index);
+            if (index != -1) {
+            String name = line.substring(0, index);
+            //System.out.println(name);
+            update(name);
+        }
+        }
+    }
+    
+    public void characterWithNumParts (int num1, int num2) {
+        for (int k = 0; k < names.size(); k++) {
+            if (counts.get(k) >= num1 && counts.get(k) <= num2) {
+                System.out.println("Character: " + names.get(k) + " # of appearances " + counts.get(k));
+            }
+        }
+    }
+    
+    public void tester () {
+        findAllCharacters();
+        /*for (int k = 0; k < names.size(); k++) {
+            if (counts.get(k) > 5) {
+                System.out.println("Character: " + names.get(k) + " # of appearances " + counts.get(k)); 
+            }
+        }*/
+        characterWithNumParts(15, 30);
+        /*for (int k = 0; k < names.size(); k++) {
+            System.out.print(names.get(k) + "   ");
+            System.out.println(counts.get(k));
+        }*/
+    }
+}
